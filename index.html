@@ -1,535 +1,363 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>HANEESH KARUMURI // OPS TERMINAL</title>
-  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet"/>
-  <style>
-    :root {
-      --r: #cc0022;
-      --rb: #ff0033;
-      --rd: #880015;
-      --rdd: #440008;
-      --rg: rgba(255,0,51,0.15);
-      --bg: #050000;
-      --bg2: #0a0002;
-      --border: rgba(204,0,34,0.25);
-    }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body {
-      background: var(--bg);
-      color: var(--r);
-      font-family: 'Share Tech Mono', monospace;
-      overflow-x: hidden;
-      cursor: crosshair;
-    }
-    body::after {
-      content: '';
-      position: fixed; top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: repeating-linear-gradient(
-        0deg, transparent, transparent 3px,
-        rgba(0,0,0,0.18) 3px, rgba(0,0,0,0.18) 4px
-      );
-      pointer-events: none;
-      z-index: 9998;
-    }
-    @keyframes flicker {
-      0%,100%{opacity:1} 92%{opacity:1} 93%{opacity:.88} 94%{opacity:1} 97%{opacity:.93} 98%{opacity:1}
-    }
-    body { animation: flicker 9s infinite; }
-    #mtx {
-      position: fixed; top:0; left:0;
-      width:100%; height:100%;
-      opacity:.06; z-index:0; pointer-events:none;
-    }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Haneesh Karumuri — ~</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0d0d;
+    --panel:#0f1414;
+    --panel2:#0d1111;
+    --border:#1e2b28;
+    --fg:#d7dedb;
+    --dim:#7b8c88;
+    --dim2:#526059;
+    --accent:#5fd992;
+    --accent-dim:#2f6b4d;
+    --amber:#e6b76a;
+    --maxw:760px;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--fg);
+    font-family:'JetBrains Mono',monospace;
+    font-size:15px;
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--accent-dim);color:#fff;}
 
-    /* HERO SPLIT */
-    #hero {
-      position: relative; z-index: 1;
-      min-height: 100vh;
-      display: grid;
-      grid-template-columns: 300px 1fr;
-      overflow: hidden;
-    }
-    .hero-left {
-      background: var(--rb);
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 40px 24px;
-      overflow: hidden;
-      clip-path: polygon(0 0, 100% 0, 82% 100%, 0 100%);
-      z-index: 2;
-    }
-    .hero-left::before {
-      content: '';
-      position: absolute; top:0; left:0;
-      width:100%; height:100%;
-      background: repeating-linear-gradient(
-        0deg, transparent, transparent 5px,
-        rgba(0,0,0,0.22) 5px, rgba(0,0,0,0.22) 6px
-      );
-      pointer-events: none;
-    }
-    .hero-left-name {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 3.6rem;
-      font-weight: 900;
-      color: #000;
-      line-height: 1;
-      writing-mode: vertical-rl;
-      text-orientation: mixed;
-      transform: rotate(180deg);
-      letter-spacing: 8px;
-      opacity: 0.82;
-      position: relative;
-      z-index: 1;
-    }
-    .hero-kanji {
-      position: absolute;
-      right: -8px; top: 24px;
-      font-size: 2.4rem;
-      color: rgba(0,0,0,0.18);
-      writing-mode: vertical-rl;
-      letter-spacing: 10px;
-      line-height: 1;
-      font-family: serif;
-      z-index: 1;
-    }
-    .hero-right {
-      background: var(--bg);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 80px 48px 40px;
-      position: relative;
-    }
-    .sys-status {
-      border: 1px solid var(--r);
-      padding: 22px 26px;
-      max-width: 440px;
-      position: relative;
-      background: rgba(10,0,2,0.9);
-    }
-    .sys-status::before {
-      content: 'System status';
-      position: absolute; top: -10px; left: 16px;
-      background: var(--bg);
-      padding: 0 8px;
-      font-size: 0.7rem; color: var(--r); letter-spacing: 2px;
-    }
-    .sys-row {
-      font-size: 0.68rem; letter-spacing: 1.5px;
-      line-height: 2.1; color: var(--rd); text-transform: uppercase;
-    }
-    .sys-row .lbl { color: var(--r); }
-    .sys-row .ok { color: var(--rd); }
-    .sys-row .warn { color: var(--rb); }
-    .sys-row.dv { border-top:1px solid var(--border); margin:6px 0; padding-top:6px; }
-    .sys-cmd {
-      margin-top: 14px;
-      border: 1px solid var(--rd);
-      padding: 6px 12px;
-      font-size: 0.65rem; color: var(--rd); letter-spacing: 2px;
-      cursor: crosshair; display: inline-block; transition: all 0.2s;
-      text-decoration: none;
-    }
-    .sys-cmd:hover { border-color:var(--rb); color:var(--rb); box-shadow:0 0 10px var(--rg); }
-    @keyframes glitch {
-      0%,85%,100%{clip-path:none;transform:none}
-      86%{clip-path:inset(25% 0 50% 0);transform:translateX(-4px)}
-      88%{clip-path:inset(65% 0 15% 0);transform:translateX(4px)}
-      90%{clip-path:inset(10% 0 75% 0);transform:translateX(-2px)}
-    }
-    .hero-ip {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 2.2rem; font-weight: 700;
-      color: var(--r); letter-spacing: 4px;
-      margin-top: 32px; opacity: 0.65;
-      animation: glitch 6s infinite;
-    }
-    .hero-tagline {
-      font-size: 0.65rem; letter-spacing: 4px;
-      color: var(--rdd); margin-top: 8px; text-transform: uppercase;
-    }
+  a{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent-dim);transition:border-color .15s,color .15s;}
+  a:hover{color:#fff;border-color:var(--accent);}
 
-    /* NAV */
-    nav {
-      position: fixed; top:0; left:0; right:0;
-      z-index: 1000;
-      background: rgba(5,0,0,0.95);
-      border-bottom: 1px solid var(--border);
-      padding: 12px 40px;
-      display: flex; align-items: center; justify-content: space-between;
-      backdrop-filter: blur(4px);
-    }
-    .nav-logo { font-family:'Orbitron',sans-serif; font-size:.62rem; color:var(--r); letter-spacing:4px; }
-    .nav-links { display:flex; gap:26px; }
-    .nav-links a { color:var(--rd); text-decoration:none; font-size:.62rem; letter-spacing:2px; text-transform:uppercase; transition:color .2s; }
-    .nav-links a:hover { color:var(--rb); }
-    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
-    .sdot { width:7px; height:7px; border-radius:50%; background:var(--r); box-shadow:0 0 6px var(--r); animation:blink 1.4s infinite; display:inline-block; margin-right:6px; }
+  /* NAV */
+  nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(10,13,13,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--border);
+  }
+  .nav-inner{
+    max-width:var(--maxw);margin:0 auto;padding:12px 20px;
+    display:flex;align-items:center;gap:4px;flex-wrap:wrap;
+  }
+  .nav-path{color:var(--dim2);font-size:13px;margin-right:10px;white-space:nowrap;}
+  .nav-links{display:flex;gap:2px;flex-wrap:wrap;}
+  .nav-links a{
+    border:none;color:var(--dim);font-size:13px;padding:5px 10px;border-radius:3px;
+    transition:background .15s,color .15s;
+  }
+  .nav-links a:hover{background:var(--panel2);color:var(--accent);}
+  .nav-links a.dot::before{content:'$ ';color:var(--dim2);}
 
-    /* SECTIONS */
-    section { position:relative; z-index:1; max-width:1040px; margin:0 auto; padding:80px 40px; }
-    .sh { display:flex; align-items:center; gap:16px; margin-bottom:44px; }
-    .sn { color:var(--rdd); font-size:.62rem; letter-spacing:2px; }
-    .st { font-family:'Orbitron',sans-serif; font-size:.88rem; font-weight:700; color:var(--r); letter-spacing:6px; text-transform:uppercase; }
-    .sl { flex:1; height:1px; background:linear-gradient(to right,var(--border),transparent); }
+  section{max-width:var(--maxw);margin:0 auto;padding:52px 20px;}
 
-    /* EXPERIENCE */
-    .elist { display:flex; flex-direction:column; }
-    .eitem { border-left:2px solid var(--border); padding:0 0 32px 28px; position:relative; transition:border-color .2s; }
-    .eitem:hover { border-left-color:var(--r); }
-    .eitem::before { content:''; position:absolute; left:-6px; top:4px; width:10px; height:10px; border:1px solid var(--r); background:var(--bg); transform:rotate(45deg); }
-    .ejob { font-family:'Orbitron',sans-serif; font-size:.76rem; color:var(--r); letter-spacing:2px; margin-bottom:4px; }
-    .emeta { font-size:.63rem; color:var(--rdd); letter-spacing:2px; margin-bottom:12px; }
-    .eb { font-size:.7rem; color:var(--rd); line-height:1.9; padding-left:14px; position:relative; }
-    .eb::before { content:'›'; position:absolute; left:0; color:var(--r); }
+  /* prompt / command styling */
+  .cmd{color:var(--dim2);font-size:13.5px;margin-bottom:14px;letter-spacing:.2px;}
+  .cmd .user{color:var(--accent);}
+  .cmd .path{color:var(--amber);}
+  .cmd .exec{color:var(--fg);}
+  .out{color:var(--fg);}
+  .comment{color:var(--dim2);}
 
-    /* PROJECTS */
-    .pgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(290px,1fr)); gap:20px; }
-    .pc { border:1px solid var(--border); padding:22px; background:var(--bg2); position:relative; transition:all .25s; overflow:hidden; }
-    .pc::before { content:''; position:absolute; top:0; left:0; width:3px; height:0; background:var(--r); transition:height .3s; }
-    .pc:hover::before { height:100%; }
-    .pc:hover { border-color:var(--r); box-shadow:0 0 18px rgba(204,0,34,.1); transform:translateX(4px); }
-    .ptag { font-size:.56rem; letter-spacing:3px; color:var(--rdd); margin-bottom:8px; text-transform:uppercase; }
-    .pn { font-family:'Orbitron',sans-serif; font-size:.78rem; color:var(--r); margin-bottom:10px; letter-spacing:2px; }
-    .pd { font-size:.7rem; color:var(--rd); line-height:1.85; margin-bottom:14px; }
-    .ps { display:flex; flex-wrap:wrap; gap:5px; margin-bottom:14px; }
-    .pk { font-size:.56rem; padding:2px 7px; border:1px solid var(--rdd); color:var(--rdd); letter-spacing:1px; }
-    .pls { display:flex; gap:12px; }
-    .pl { font-size:.62rem; color:var(--rd); text-decoration:none; letter-spacing:2px; border-bottom:1px solid var(--border); padding-bottom:1px; transition:color .2s,border-color .2s; }
-    .pl:hover { color:var(--rb); border-color:var(--rb); }
+  /* HERO / terminal window */
+  .term{
+    max-width:var(--maxw);margin:36px auto 0;
+    border:1px solid var(--border);border-radius:8px;
+    background:var(--panel);overflow:hidden;
+    box-shadow:0 24px 60px -30px rgba(0,0,0,.7);
+  }
+  .term-bar{
+    display:flex;align-items:center;gap:8px;
+    padding:10px 14px;border-bottom:1px solid var(--border);
+    background:var(--panel2);
+  }
+  .dot{width:9px;height:9px;border-radius:50%;}
+  .dot.r{background:#e5534b;} .dot.y{background:#e6b76a;} .dot.g{background:#5fd992;}
+  .term-title{margin-left:8px;color:var(--dim);font-size:12px;letter-spacing:1px;}
+  .term-body{padding:26px 24px 30px;}
 
-    /* SKILLS */
-    .sgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:20px; }
-    .sc { border:1px solid var(--border); padding:20px; background:var(--bg2); }
-    .sct { font-family:'Orbitron',sans-serif; font-size:.58rem; color:var(--rd); letter-spacing:3px; margin-bottom:16px; border-bottom:1px solid var(--border); padding-bottom:8px; }
-    .si { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
-    .snm { font-size:.66rem; color:var(--rd); min-width:88px; letter-spacing:1px; }
-    .sbg { flex:1; height:2px; background:rgba(204,0,34,.12); position:relative; }
-    .sf { position:absolute; top:0; left:0; height:100%; background:var(--r); box-shadow:0 0 5px rgba(204,0,34,.4); transition:width 1.5s ease; }
-    .sp { font-size:.56rem; color:var(--rdd); min-width:30px; text-align:right; }
+  .who-line{color:var(--dim2);font-size:13.5px;}
+  .type-line{
+    display:inline-block;overflow:hidden;white-space:nowrap;border-right:2px solid var(--accent);
+    width:0; animation:type 1.1s steps(22,end) forwards .15s, blink .8s step-end infinite;
+  }
+  @keyframes type{from{width:0} to{width:22ch}}
+  @keyframes blink{50%{border-color:transparent}}
 
-    /* CERTS */
-    .clist { display:flex; flex-direction:column; gap:14px; }
-    .ci { border:1px solid var(--border); padding:18px 22px; background:var(--bg2); display:flex; align-items:center; gap:18px; transition:all .2s; }
-    .ci:hover { border-color:var(--r); box-shadow:0 0 12px rgba(204,0,34,.08); }
-    .cic { font-size:1.1rem; min-width:28px; text-align:center; }
-    .cn { font-family:'Orbitron',sans-serif; font-size:.7rem; color:var(--r); letter-spacing:2px; margin-bottom:3px; }
-    .cis { font-size:.63rem; color:var(--rd); letter-spacing:1px; }
-    .cb { font-size:.56rem; padding:3px 9px; border:1px solid; letter-spacing:2px; text-transform:uppercase; white-space:nowrap; }
-    .cb.active { border-color:var(--r); color:var(--r); }
-    .cb.prog { border-color:var(--rdd); color:var(--rdd); animation:blink 2s infinite; }
+  .id-block{margin-top:16px;}
+  .id-name{color:var(--fg);font-size:22px;font-weight:700;letter-spacing:.5px;}
+  .id-row{font-size:13.5px;color:var(--dim);margin-top:6px;}
+  .id-row .k{color:var(--dim2);}
+  .id-row.status{color:var(--accent);margin-top:14px;}
+  .id-row.status::before{content:'● ';}
+  .id-links{margin-top:16px;display:flex;gap:16px;flex-wrap:wrap;}
 
-    /* RESUME */
-    .rt { border:1px solid var(--border); background:var(--bg2); overflow:hidden; }
-    .tb { background:rgba(204,0,34,.07); border-bottom:1px solid var(--border); padding:10px 16px; display:flex; align-items:center; gap:8px; }
-    .td { width:9px; height:9px; border-radius:50%; }
-    .td1{background:#cc0022;} .td2{background:#881100;} .td3{background:#440008;}
-    .tt { font-size:.6rem; color:var(--rd); letter-spacing:2px; margin-left:8px; }
-    .tbd { padding:26px 30px; }
-    .tl { font-size:.72rem; line-height:2.1; color:var(--rd); }
-    .tl .cmd{color:var(--rb);} .tl .ok{color:var(--r);} .tl .dim{color:var(--rdd);}
-    .rcta { margin-top:22px; padding-top:16px; border-top:1px solid var(--border); display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+  /* reveal */
+  .rv{opacity:0;transform:translateY(10px);transition:opacity .5s ease,transform .5s ease;}
+  .rv.vis{opacity:1;transform:none;}
 
-    /* BUTTONS */
-    .btn { font-family:'Share Tech Mono',monospace; font-size:.68rem; letter-spacing:2px; text-transform:uppercase; text-decoration:none; padding:10px 20px; border:1px solid var(--r); color:var(--r); background:transparent; cursor:crosshair; transition:all .2s; position:relative; overflow:hidden; display:inline-block; }
-    .btn::before { content:''; position:absolute; top:0; left:-100%; width:100%; height:100%; background:var(--r); transition:left .2s; z-index:-1; }
-    .btn:hover { color:#000; }
-    .btn:hover::before { left:0; }
-    .btnd { border-color:var(--rd); color:var(--rd); }
-    .btnd::before { background:var(--rd); }
+  h2.st{
+    font-size:11px;letter-spacing:3px;color:var(--dim2);text-transform:uppercase;
+    margin-bottom:4px;
+  }
 
-    /* FOOTER */
-    footer { position:relative; z-index:1; border-top:1px solid var(--border); padding:20px 40px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; }
-    .ft { font-size:.58rem; color:var(--rdd); letter-spacing:2px; }
-    .fls { display:flex; gap:18px; }
-    .fls a { font-size:.58rem; color:var(--rdd); text-decoration:none; letter-spacing:2px; transition:color .2s; }
-    .fls a:hover { color:var(--r); }
+  /* experience */
+  .job{border-left:2px solid var(--border);padding:2px 0 26px 20px;position:relative;margin-top:22px;}
+  .job:first-of-type{margin-top:18px;}
+  .job::before{content:'';position:absolute;left:-5px;top:6px;width:8px;height:8px;background:var(--bg);border:2px solid var(--accent-dim);border-radius:50%;}
+  .job-title{color:var(--fg);font-weight:700;font-size:14.5px;}
+  .job-meta{color:var(--dim2);font-size:12.5px;margin:2px 0 10px;}
+  .job ul{list-style:none;}
+  .job li{color:var(--dim);font-size:13.5px;line-height:1.85;padding-left:16px;position:relative;}
+  .job li::before{content:'›';position:absolute;left:0;color:var(--accent-dim);}
 
-    .rv { opacity:0; transform:translateY(16px); transition:opacity .55s,transform .55s; }
-    .rv.vis { opacity:1; transform:none; }
+  /* projects */
+  .proj{border:1px solid var(--border);border-radius:6px;background:var(--panel);padding:18px 20px;margin-top:16px;transition:border-color .2s;}
+  .proj:hover{border-color:var(--accent-dim);}
+  .proj-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;}
+  .proj-name{color:var(--fg);font-weight:700;font-size:14.5px;}
+  .proj-date{color:var(--dim2);font-size:12px;white-space:nowrap;}
+  .proj ul{list-style:none;margin-top:10px;}
+  .proj li{color:var(--dim);font-size:13.5px;line-height:1.85;padding-left:16px;position:relative;}
+  .proj li::before{content:'›';position:absolute;left:0;color:var(--accent-dim);}
+  .tags{margin-top:12px;display:flex;flex-wrap:wrap;gap:6px;}
+  .tag{font-size:11px;color:var(--dim);border:1px solid var(--border);padding:2px 8px;border-radius:3px;}
 
-    @media(max-width:700px){
-      #hero{grid-template-columns:1fr;}
-      .hero-left{clip-path:none;min-height:160px;}
-      .hero-left-name{writing-mode:unset;transform:none;font-size:2.2rem;}
-      nav{padding:10px 16px;} .nav-links{gap:12px;}
-      section{padding:60px 20px;}
-      .hero-right{padding:30px 20px 40px;}
-    }
-  </style>
+  /* skills as yaml */
+  .yaml{background:var(--panel);border:1px solid var(--border);border-radius:6px;padding:20px 22px;margin-top:18px;font-size:13.5px;}
+  .yaml .k{color:var(--amber);}
+  .yaml .v{color:var(--dim);}
+  .yaml-row{padding:4px 0;}
+
+  /* certs */
+  .cert-list{margin-top:18px;display:flex;flex-direction:column;gap:10px;}
+  .cert{display:flex;justify-content:space-between;align-items:center;border:1px solid var(--border);border-radius:6px;padding:13px 18px;background:var(--panel);}
+  .cert-name{color:var(--fg);font-size:13.5px;font-weight:600;}
+  .cert-year{color:var(--dim2);font-size:12px;}
+
+  /* education */
+  .edu{margin-top:18px;}
+  .edu-school{color:var(--fg);font-weight:700;font-size:14.5px;}
+  .edu-meta{color:var(--dim2);font-size:12.5px;margin-top:3px;}
+  .edu-courses{color:var(--dim);font-size:13.5px;margin-top:10px;}
+  .edu-courses .k{color:var(--amber);}
+
+  /* contact */
+  .contact-box{border:1px solid var(--border);border-radius:6px;background:var(--panel);padding:22px 24px;margin-top:18px;}
+  .btn-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px;}
+  .btn{
+    font-family:'JetBrains Mono',monospace;font-size:13px;
+    border:1px solid var(--accent-dim);color:var(--accent);
+    padding:9px 16px;border-radius:5px;transition:all .15s;
+  }
+  .btn:hover{background:var(--accent);color:#06110c;border-color:var(--accent);}
+  .btn.alt{border-color:var(--border);color:var(--dim);}
+  .btn.alt:hover{background:var(--panel2);color:var(--fg);border-color:var(--dim2);}
+
+  footer{border-top:1px solid var(--border);padding:24px 20px;text-align:center;}
+  footer p{color:var(--dim2);font-size:12px;}
+
+  @media(max-width:600px){
+    body{font-size:14px;}
+    .term-body{padding:20px 16px 24px;}
+    .id-name{font-size:19px;}
+    section{padding:40px 16px;}
+  }
+</style>
 </head>
 <body>
 
-<canvas id="mtx"></canvas>
-
-<!-- NAV -->
 <nav>
-  <div class="nav-logo">HK // OPS_TERMINAL</div>
-  <div class="nav-links">
-    <a href="#experience">XP</a>
-    <a href="#projects">Projects</a>
-    <a href="#skills">Skills</a>
-    <a href="#certifications">Certs</a>
-    <a href="#resume">Resume</a>
+  <div class="nav-inner">
+    <span class="nav-path">haneesh@portfolio:~$</span>
+    <div class="nav-links">
+      <a href="#experience" class="dot">experience</a>
+      <a href="#projects" class="dot">projects</a>
+      <a href="#skills" class="dot">skills</a>
+      <a href="#education" class="dot">education</a>
+      <a href="#certs" class="dot">certs</a>
+      <a href="#contact" class="dot">contact</a>
+    </div>
   </div>
-  <div style="font-size:.6rem;color:var(--rdd);letter-spacing:1px;"><span class="sdot"></span>ONLINE</div>
 </nav>
 
-<!-- HERO -->
-<div id="hero">
-  <div class="hero-left">
-    <div class="hero-kanji">セキュリティ<br>エンジニア</div>
-    <div class="hero-left-name">HANEESH</div>
+<!-- HERO TERMINAL -->
+<div class="term">
+  <div class="term-bar">
+    <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+    <span class="term-title">guest@haneesh — 80x24</span>
   </div>
-  <div class="hero-right">
-    <div class="sys-status">
-      <div class="sys-row"><span class="lbl">SERVICE STATUS:</span> <span class="ok">RUNNING</span></div>
-      <div class="sys-row"><span class="lbl">SYSTEM:</span> <span class="warn">SEEKING INTERNSHIP</span></div>
-      <div class="sys-row"><span class="lbl">DATA INTEGRITY:</span> <span class="ok">VERIFIED</span></div>
-      <div class="sys-row dv"></div>
-      <div class="sys-row"><span class="lbl">IDENTITY:</span> HANEESH KARUMURI</div>
-      <div class="sys-row"><span class="lbl">AFFILIATION:</span> SMU LYLE ENGINEERING</div>
-      <div class="sys-row"><span class="lbl">CLEARANCE:</span> CySA+ · SECURITY+</div>
-      <div class="sys-row dv"></div>
-      <div class="sys-row"><span class="lbl">GITHUB:</span> <a href="https://github.com/HkaruM4x" style="color:var(--r);text-decoration:none;" target="_blank">HkaruM4x</a></div>
-      <div class="sys-row"><span class="lbl">LINKEDIN:</span> <a href="https://linkedin.com/in/haneeshk" style="color:var(--r);text-decoration:none;" target="_blank">haneeshk</a></div>
-      <div class="sys-row dv"></div>
-      <div class="sys-row"><span class="lbl">OVERALL STATUS:</span> <span class="warn">CRITICAL — HIRE IMMEDIATELY</span></div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;">
-        <a href="#projects" class="sys-cmd">BROWSE PROJECTS</a>
-        <a href="#resume" class="sys-cmd">ACCESS RESUME</a>
+  <div class="term-body">
+    <div class="who-line">guest@haneesh:~$ <span class="type-line">whoami</span></div>
+    <div class="id-block">
+      <div class="id-name">Haneesh Karumuri</div>
+      <div class="id-row"><span class="k">role</span> &nbsp;&nbsp;security-focused software engineer, undergrad</div>
+      <div class="id-row"><span class="k">school</span> SMU · Bobby B. Lyle School of Engineering — B.S. CS, May 2028</div>
+      <div class="id-row"><span class="k">location</span> Irving, TX</div>
+      <div class="id-row"><span class="k">clearance</span> US Citizen — eligible for Secret / TS</div>
+      <div class="id-row status">seeking SWE / security engineering internship</div>
+      <div class="id-links">
+        <a href="mailto:hkarumuri@gmail.com">email</a>
+        <a href="https://github.com/HkaruM4x" target="_blank">github</a>
+        <a href="https://linkedin.com/in/haneeshk" target="_blank">linkedin</a>
       </div>
     </div>
-    <div class="hero-ip">127.0.0.1</div>
-    <div class="hero-tagline">KARUMURI, HANEESH · SWE INTERN · CYBERSECURITY INTERN · IRVING TX</div>
   </div>
 </div>
 
+<!-- OBJECTIVE -->
+<section id="about">
+  <div class="cmd rv"><span class="user">haneesh@portfolio</span>:<span class="path">~</span>$ <span class="exec">cat objective.txt</span></div>
+  <p class="out rv" style="color:var(--dim);font-size:14px;">
+    US citizen eligible for security clearance, with CompTIA CySA+ and Security+ certifications and hands-on
+    experience across secure systems, network security, and software development. Looking for a software engineering
+    or security engineering role in the defense industry.
+  </p>
+</section>
+
 <!-- EXPERIENCE -->
 <section id="experience">
-  <div class="sh"><span class="sn">00//</span><h2 class="st">Field Experience</h2><div class="sl"></div></div>
-  <div class="elist">
-    <div class="eitem rv">
-      <div class="ejob">CYBEREYE CONSULTING — CYBERSECURITY INTERN</div>
-      <div class="emeta">REMOTE · OCT 2024 – PRESENT</div>
-      <div class="eb">Built JavaScript app features, cutting processing time 30% for 50+ users/month</div>
-      <div class="eb">Reconfigured site backend, simplified workflows and improved customer experience</div>
-      <div class="eb">Optimized UI performance delivering 30% smoother user experience</div>
-      <div class="eb">Developed a cybersecurity curriculum to teach CTF problem-solving and core concepts</div>
-    </div>
-    <div class="eitem rv">
-      <div class="ejob">TARDUS INC — SOFTWARE INTERN</div>
-      <div class="emeta">IRVING, TX · JUNE 2024 – AUG 2024</div>
-      <div class="eb">Built Java/MySQL logistics module, boosting efficiency 20% for 10+ clients</div>
-      <div class="eb">Optimized Python/MySQL services, increased speed 20% across 5 systems</div>
-      <div class="eb">Fixed 50+ network/hardware issues, maintained 99% uptime for 30+ devices</div>
-    </div>
+  <div class="cmd rv"><span class="user">haneesh@portfolio</span>:<span class="path">~</span>$ <span class="exec">ls -la experience/</span></div>
+  <h2 class="st rv">Work Experience</h2>
+
+  <div class="job rv">
+    <div class="job-title">CyberEye Consulting — Cybersecurity Intern</div>
+    <div class="job-meta">Remote · Oct 2024 – Jan 2026</div>
+    <ul>
+      <li>Built JavaScript app features, cutting processing time 30%</li>
+      <li>Reconfigured site backend, simplifying workflows and improving customer experience</li>
+      <li>Reconfigured backend architecture on Node.js, reducing API response latency by 25%</li>
+      <li>Optimized frontend rendering pipeline, improving load time 30% across client-facing dashboards</li>
+    </ul>
+  </div>
+
+  <div class="job rv">
+    <div class="job-title">Tardus Inc — Software Intern</div>
+    <div class="job-meta">Irving, TX · Jun 2024 – Aug 2024</div>
+    <ul>
+      <li>Built a Java/MySQL logistics module, boosting efficiency 20% for 10+ clients</li>
+      <li>Optimized Python/MySQL services, increasing speed 20% across 5 systems</li>
+      <li>Fixed 50+ network/hardware issues, maintaining 99% uptime for 30+ devices</li>
+    </ul>
   </div>
 </section>
 
 <!-- PROJECTS -->
 <section id="projects">
-  <div class="sh"><span class="sn">01//</span><h2 class="st">Classified Projects</h2><div class="sl"></div></div>
-  <div class="pgrid">
+  <div class="cmd rv"><span class="user">haneesh@portfolio</span>:<span class="path">~</span>$ <span class="exec">ls projects/</span></div>
+  <h2 class="st rv">Projects</h2>
 
-    <div class="pc rv">
-      <div class="ptag">⬛ SYSTEMS / C</div>
-      <div class="pn">C HTTP SERVER</div>
-      <p class="pd">Built an HTTP server in C using raw TCP sockets to parse requests and serve static HTML. Handled GET/POST methods with HTTP/1.1 compliance across 100+ test cases, achieving 99% request success rate after debugging socket connections and memory leaks.</p>
-      <div class="ps"><span class="pk">C</span><span class="pk">TCP Sockets</span><span class="pk">HTTP/1.1</span><span class="pk">Linux</span></div>
-      <div class="pls"><a href="https://github.com/HkaruM4x" target="_blank" class="pl">GitHub →</a></div>
+  <div class="proj rv">
+    <div class="proj-head">
+      <span class="proj-name">C HTTP Server (TCP Sockets)</span>
+      <span class="proj-date">Jul 2025</span>
     </div>
+    <ul>
+      <li>Implemented an HTTP server in C using raw TCP sockets to parse requests and serve static HTML</li>
+      <li>Handled GET/POST methods with HTTP/1.1 protocol compliance across 100+ test cases</li>
+      <li>Debugged socket connections and memory leaks, reaching a 99% request success rate</li>
+    </ul>
+    <div class="tags"><span class="tag">C</span><span class="tag">TCP Sockets</span><span class="tag">HTTP/1.1</span><span class="tag">Linux</span></div>
+  </div>
 
-    <div class="pc rv">
-      <div class="ptag">⬛ OPSEC / PRIVACY</div>
-      <div class="pn">RASPBERRY PI ANON SYSTEM</div>
-      <p class="pd">Deployed Linux + Tor + Mullvad VPN on Raspberry Pi for zero-leak anonymous routing. Configured Matrix (Element) with E2EE and UFW firewall rules. Bypassed platform ID verification while maintaining full IP obfuscation and censorship resistance.</p>
-      <div class="ps"><span class="pk">Raspberry Pi</span><span class="pk">Tor</span><span class="pk">VPN</span><span class="pk">UFW</span><span class="pk">E2EE</span></div>
-      <div class="pls"><a href="https://github.com/HkaruM4x" target="_blank" class="pl">GitHub →</a></div>
+  <div class="proj rv">
+    <div class="proj-head">
+      <span class="proj-name">Raspberry Pi Hardened Network Node</span>
+      <span class="proj-date">Aug 2025</span>
     </div>
+    <ul>
+      <li>Deployed Linux + Tor + Mullvad VPN on a Raspberry Pi for zero-leak anonymous routing</li>
+      <li>Configured Matrix (Element) with E2EE and UFW firewall rules to block all leaks</li>
+      <li>Validated network isolation against identification and tracking vectors, confirming zero data leakage across all egress paths</li>
+    </ul>
+    <div class="tags"><span class="tag">Raspberry Pi</span><span class="tag">Tor</span><span class="tag">VPN</span><span class="tag">UFW</span><span class="tag">E2EE</span></div>
+  </div>
 
-    <div class="pc rv">
-      <div class="ptag">⬛ SLOT RESERVED</div>
-      <div class="pn">PROJECT CODENAME: [TBD]</div>
-      <p class="pd">Next operation pending deployment. Replace this card with your upcoming build — CTF write-up, pentest tool, ML security model, or web app. Update the HTML to add it.</p>
-      <div class="ps"><span class="pk">???</span></div>
+  <div class="proj rv">
+    <div class="proj-head">
+      <span class="proj-name">HydroIQ — Automated Water Reuse Prospecting Engine</span>
+      <span class="proj-date">Apr 2026</span>
     </div>
-
+    <ul>
+      <li>Analyzed satellite imagery via the ArcGIS API to identify 50,000+ large buildings (100k+ sq ft) for water reuse and operational resilience</li>
+      <li>Integrated multi-source data (NOAA, EPA, incentives) to compute viability scores with 70%+ cost savings potential and mission-continuity ROI</li>
+      <li>Developed a financial weighting algorithm (60% collection + 40% cost) achieving 85% accuracy in site prioritization for infrastructure hardening</li>
+    </ul>
+    <div class="tags"><span class="tag">ArcGIS API</span><span class="tag">NOAA</span><span class="tag">Java</span><span class="tag">Mapbox GL</span></div>
   </div>
 </section>
 
 <!-- SKILLS -->
 <section id="skills">
-  <div class="sh"><span class="sn">02//</span><h2 class="st">Operational Skills</h2><div class="sl"></div></div>
-  <div class="sgrid">
+  <div class="cmd rv"><span class="user">haneesh@portfolio</span>:<span class="path">~</span>$ <span class="exec">cat skills.yaml</span></div>
+  <h2 class="st rv">Skills</h2>
+  <div class="yaml rv">
+    <div class="yaml-row"><span class="k">programming:</span> <span class="v">Java, Python, C/C++, MySQL, TCP sockets, Bash, PowerShell, OOP</span></div>
+    <div class="yaml-row"><span class="k">cybersecurity:</span> <span class="v">OSI model, TCP/IP, AES/RSA crypto, Metasploit, firewalls, OSINT, NIST framework</span></div>
+    <div class="yaml-row"><span class="k">tools:</span> <span class="v">Wireshark, TryHackMe, command line (grep, awk), HTTP analysis</span></div>
+    <div class="yaml-row"><span class="k">ai_ml:</span> <span class="v">TensorFlow, PyTorch, scikit-learn, LLMs, LangChain, Hugging Face</span></div>
+    <div class="yaml-row"><span class="k">automation:</span> <span class="v">Power Automate, UiPath, Automation Anywhere, Blue Prism</span></div>
+  </div>
+</section>
 
-    <div class="sc rv">
-      <div class="sct">► LANGUAGES</div>
-      <div class="si"><span class="snm">Python</span><div class="sbg"><div class="sf" data-w="88%" style="width:0"></div></div><span class="sp">88%</span></div>
-      <div class="si"><span class="snm">Java</span><div class="sbg"><div class="sf" data-w="78%" style="width:0"></div></div><span class="sp">78%</span></div>
-      <div class="si"><span class="snm">C / C++</span><div class="sbg"><div class="sf" data-w="76%" style="width:0"></div></div><span class="sp">76%</span></div>
-      <div class="si"><span class="snm">Bash/PS</span><div class="sbg"><div class="sf" data-w="80%" style="width:0"></div></div><span class="sp">80%</span></div>
-      <div class="si"><span class="snm">MySQL</span><div class="sbg"><div class="sf" data-w="72%" style="width:0"></div></div><span class="sp">72%</span></div>
-    </div>
-
-    <div class="sc rv">
-      <div class="sct">► CYBERSECURITY</div>
-      <div class="si"><span class="snm">Networking</span><div class="sbg"><div class="sf" data-w="86%" style="width:0"></div></div><span class="sp">86%</span></div>
-      <div class="si"><span class="snm">Metasploit</span><div class="sbg"><div class="sf" data-w="72%" style="width:0"></div></div><span class="sp">72%</span></div>
-      <div class="si"><span class="snm">OSINT</span><div class="sbg"><div class="sf" data-w="80%" style="width:0"></div></div><span class="sp">80%</span></div>
-      <div class="si"><span class="snm">AES/RSA</span><div class="sbg"><div class="sf" data-w="70%" style="width:0"></div></div><span class="sp">70%</span></div>
-      <div class="si"><span class="snm">Firewalls</span><div class="sbg"><div class="sf" data-w="78%" style="width:0"></div></div><span class="sp">78%</span></div>
-    </div>
-
-    <div class="sc rv">
-      <div class="sct">► TOOLS</div>
-      <div class="si"><span class="snm">Wireshark</span><div class="sbg"><div class="sf" data-w="82%" style="width:0"></div></div><span class="sp">82%</span></div>
-      <div class="si"><span class="snm">TryHackMe</span><div class="sbg"><div class="sf" data-w="85%" style="width:0"></div></div><span class="sp">85%</span></div>
-      <div class="si"><span class="snm">TCP Sockets</span><div class="sbg"><div class="sf" data-w="76%" style="width:0"></div></div><span class="sp">76%</span></div>
-      <div class="si"><span class="snm">grep / awk</span><div class="sbg"><div class="sf" data-w="80%" style="width:0"></div></div><span class="sp">80%</span></div>
-    </div>
-
-    <div class="sc rv">
-      <div class="sct">► AI / AUTOMATION</div>
-      <div class="si"><span class="snm">TensorFlow</span><div class="sbg"><div class="sf" data-w="70%" style="width:0"></div></div><span class="sp">70%</span></div>
-      <div class="si"><span class="snm">PyTorch</span><div class="sbg"><div class="sf" data-w="68%" style="width:0"></div></div><span class="sp">68%</span></div>
-      <div class="si"><span class="snm">LangChain</span><div class="sbg"><div class="sf" data-w="65%" style="width:0"></div></div><span class="sp">65%</span></div>
-      <div class="si"><span class="snm">UiPath</span><div class="sbg"><div class="sf" data-w="72%" style="width:0"></div></div><span class="sp">72%</span></div>
-    </div>
-
+<!-- EDUCATION -->
+<section id="education">
+  <div class="cmd rv"><span class="user">haneesh@portfolio</span>:<span class="path">~</span>$ <span class="exec">cat education.txt</span></div>
+  <h2 class="st rv">Education</h2>
+  <div class="edu rv">
+    <div class="edu-school">Southern Methodist University — Dallas, TX</div>
+    <div class="edu-meta">Bobby B. Lyle School of Engineering · B.S. Computer Science · Expected May 2028</div>
+    <div class="edu-courses"><span class="k">relevant courses:</span> Linear Algebra, Computer Organization, Data Structures, Fundamentals of Algorithms, Calculus 1 &amp; 2</div>
   </div>
 </section>
 
 <!-- CERTIFICATIONS -->
-<section id="certifications">
-  <div class="sh"><span class="sn">03//</span><h2 class="st">Credentials</h2><div class="sl"></div></div>
-  <div class="clist">
-
-    <div class="ci rv">
-      <div class="cic">🛡️</div>
-      <div style="flex:1">
-        <div class="cn">COMPTIA CYSA+ CE</div>
-        <div class="cis">CompTIA · Cybersecurity Analyst · 2025</div>
-      </div>
-      <div class="cb active">ACTIVE</div>
-    </div>
-
-    <div class="ci rv">
-      <div class="cic">🔐</div>
-      <div style="flex:1">
-        <div class="cn">COMPTIA SECURITY+ CE</div>
-        <div class="cis">CompTIA · Security Fundamentals · 2023</div>
-      </div>
-      <div class="cb active">ACTIVE</div>
-    </div>
-
-    <div class="ci rv">
-      <div class="cic">🐍</div>
-      <div style="flex:1">
-        <div class="cn">PCAP — CERTIFIED ASSOCIATE IN PYTHON</div>
-        <div class="cis">Python Institute · 2023</div>
-      </div>
-      <div class="cb active">ACTIVE</div>
-    </div>
-
-    <div class="ci rv">
-      <div class="cic">🎯</div>
-      <div style="flex:1">
-        <div class="cn">TRYHACKME — ACTIVE PRACTITIONER</div>
-        <div class="cis">TryHackMe · Practical Cybersecurity Labs · Ongoing</div>
-      </div>
-      <div class="cb prog">ONGOING</div>
-    </div>
-
+<section id="certs">
+  <div class="cmd rv"><span class="user">haneesh@portfolio</span>:<span class="path">~</span>$ <span class="exec">cat certifications.txt</span></div>
+  <h2 class="st rv">Certifications</h2>
+  <div class="cert-list rv">
+    <div class="cert"><span class="cert-name">CompTIA CySA+ CE</span><span class="cert-year">2025</span></div>
+    <div class="cert"><span class="cert-name">CompTIA Security+ CE</span><span class="cert-year">2023</span></div>
+    <div class="cert"><span class="cert-name">Certified Associate in Python Programming (PCAP)</span><span class="cert-year">2023</span></div>
   </div>
 </section>
 
-<!-- RESUME -->
-<section id="resume">
-  <div class="sh"><span class="sn">04//</span><h2 class="st">Resume Access</h2><div class="sl"></div></div>
-  <div class="rt rv">
-    <div class="tb">
-      <div class="td td1"></div><div class="td td2"></div><div class="td td3"></div>
-      <span class="tt">SECURE_TRANSFER — HANEESH_KARUMURI_RESUME.PDF</span>
-    </div>
-    <div class="tbd">
-      <div class="tl"><span class="cmd">$</span> ~/ops/karumuri cat IDENT.txt</div>
-      <div class="tl" style="margin-top:8px;">
-        <span class="dim">┌─────────────────────────────────────────────</span><br>
-        <span class="dim">│</span> OPERATOR: <span class="ok">HANEESH KARUMURI</span><br>
-        <span class="dim">│</span> SCHOOL: <span class="ok">SMU · BOBBY B. LYLE ENGINEERING</span><br>
-        <span class="dim">│</span> DEGREE: B.S. COMPUTER SCIENCE · MAY 2028<br>
-        <span class="dim">│</span> TARGET: SWE INTERN · CYBERSECURITY INTERN<br>
-        <span class="dim">│</span> BASE: IRVING, TX · REMOTE CAPABLE<br>
-        <span class="dim">│</span> STATUS: <span class="ok">ACTIVELY LOOKING ██████████ 100%</span><br>
-        <span class="dim">└─────────────────────────────────────────────</span>
-      </div>
-      <div class="tl" style="margin-top:12px;"><span class="cmd">$</span> ls certs/</div>
-      <div class="tl"><span class="dim">CySA+_2025.cert &nbsp;&nbsp; Security+_2023.cert &nbsp;&nbsp; PCAP_2023.cert</span></div>
-      <div class="rcta">
-        <a href="mailto:hkarumuri@gmail.com" class="btn">✉ CONTACT</a>
-        <a href="https://github.com/HkaruM4x" target="_blank" class="btn btnd">GITHUB</a>
-        <a href="https://linkedin.com/in/haneeshk" target="_blank" class="btn btnd">LINKEDIN</a>
-        <!-- Upload resume PDF to GitHub and replace href below -->
-        <a href="#" class="btn btnd" title="Upload your resume PDF to GitHub and update this link">⬇ RESUME PDF</a>
-      </div>
+<!-- CONTACT -->
+<section id="contact">
+  <div class="cmd rv"><span class="user">haneesh@portfolio</span>:<span class="path">~</span>$ <span class="exec">./contact.sh</span></div>
+  <div class="contact-box rv">
+    <div class="id-row"><span class="k">email</span> hkarumuri@gmail.com</div>
+    <div class="id-row"><span class="k">phone</span> +1 (972) 900-3627</div>
+    <div class="id-row"><span class="k">location</span> Irving, TX</div>
+    <div class="btn-row">
+      <a href="mailto:hkarumuri@gmail.com" class="btn">email me</a>
+      <a href="https://github.com/HkaruM4x" target="_blank" class="btn alt">github</a>
+      <a href="https://linkedin.com/in/haneeshk" target="_blank" class="btn alt">linkedin</a>
+      <a href="./resume.pdf" class="btn alt">download resume</a>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
-  <div class="ft">// HANEESH KARUMURI · OPS TERMINAL · 2025</div>
-  <div class="fls">
-    <a href="https://github.com/HkaruM4x" target="_blank">GitHub</a>
-    <a href="https://linkedin.com/in/haneeshk" target="_blank">LinkedIn</a>
-    <a href="mailto:hkarumuri@gmail.com">Email</a>
-  </div>
-  <div class="ft" style="font-size:.48rem;opacity:.3;">CONN ENCRYPTED · TLS 1.3</div>
+  <p>haneesh karumuri // built from the terminal, for the terminal</p>
 </footer>
 
 <script>
-  /* MATRIX RAIN */
-  const cv = document.getElementById('mtx');
-  const cx = cv.getContext('2d');
-  function rsz(){ cv.width=innerWidth; cv.height=innerHeight; }
-  rsz(); window.addEventListener('resize', rsz);
-  let drops = [];
-  function initD(){ drops = Array(Math.floor(cv.width/18)).fill(0).map(()=>Math.random()*cv.height/18|0); }
-  initD(); window.addEventListener('resize', initD);
-  const ch = 'アイウエカキクケコサシスセソタチ01234567890ABCDEF<>[]{}|\\/#!@';
-  function draw(){
-    cx.fillStyle='rgba(5,0,0,0.06)';
-    cx.fillRect(0,0,cv.width,cv.height);
-    drops.forEach((y,i)=>{
-      cx.fillStyle = Math.random()>.97 ? '#ff0033' : '#660011';
-      cx.font = '13px Share Tech Mono';
-      cx.fillText(ch[Math.random()*ch.length|0], i*18, y*18);
-      if(y*18>cv.height && Math.random()>.975) drops[i]=0;
-      drops[i]++;
-    });
-  }
-  setInterval(draw,55);
-
-  /* SCROLL REVEAL */
   const obs = new IntersectionObserver(entries=>{
-    entries.forEach((e,i)=>{ if(e.isIntersecting){ setTimeout(()=>e.target.classList.add('vis'),i*70); obs.unobserve(e.target); } });
+    entries.forEach((e,i)=>{
+      if(e.isIntersecting){
+        setTimeout(()=>e.target.classList.add('vis'), i*40);
+        obs.unobserve(e.target);
+      }
+    });
   },{threshold:0.1});
   document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
-
-  /* SKILL BARS */
-  const bobs = new IntersectionObserver(entries=>{
-    entries.forEach(e=>{ if(e.isIntersecting){ e.target.style.width=e.target.dataset.w; bobs.unobserve(e.target); } });
-  },{threshold:0.5});
-  document.querySelectorAll('.sf').forEach(b=>bobs.observe(b));
 </script>
 </body>
 </html>
