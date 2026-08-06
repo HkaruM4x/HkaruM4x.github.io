@@ -228,13 +228,12 @@
   <h2 class="st rv">Work Experience</h2>
 
   <div class="job rv">
-    <div class="job-title">CyberEye Consulting — Cybersecurity Intern</div>
-    <div class="job-meta">Remote · Oct 2024 – Jan 2026</div>
+    <div class="job-title">Research Experience for Undergraduates (REU), MIST Lab, SMU</div>
+    <div class="job-meta">Dallas, TX · Jun 2026 – Present</div>
     <ul>
-      <li>Built JavaScript app features, cutting processing time 30%</li>
-      <li>Reconfigured site backend, simplifying workflows and improving customer experience</li>
-      <li>Reconfigured backend architecture on Node.js, reducing API response latency by 25%</li>
-      <li>Optimized frontend rendering pipeline, improving load time 30% across client-facing dashboards</li>
+      <li>Built end-to-end sensor and audio data pipelines on wearable smart-glasses platforms (Vuzix Blade 2, Meta Ray-Ban) using Android/Kotlin and iOS/Swift, integrating LLM-based inference for real-time signal interpretation and human activity recognition</li>
+      <li>Identified a hardware-level audio bandwidth limitation (19 kHz actual vs. 48 kHz reported by the API) on the Vuzix Blade 2 through independent signal analysis, informing platform-level design decisions for the research group</li>
+      <li>Reviewed published LLM/sensor research (HARGPT, LLaSA, ZARA) and proposed a RAG enhancement later validated in peer-reviewed literature, while delivering 8+ weekly technical progress reports to the faculty PI</li>
     </ul>
   </div>
 
@@ -256,28 +255,15 @@
 
   <div class="proj rv">
     <div class="proj-head">
-      <span class="proj-name">C HTTP Server (TCP Sockets)</span>
-      <span class="proj-date">Jul 2025</span>
+      <span class="proj-name">Mephisto — Local, Offline-Capable AI Agent</span>
+      <span class="proj-date">Jul 2026</span>
     </div>
     <ul>
-      <li>Implemented an HTTP server in C using raw TCP sockets to parse requests and serve static HTML</li>
-      <li>Handled GET/POST methods with HTTP/1.1 protocol compliance across 100+ test cases</li>
-      <li>Debugged socket connections and memory leaks, reaching a 99% request success rate</li>
+      <li>Built a fully local AI agent for edge deployment on constrained hardware, with a RAG pipeline over ~1,175 chunks of domain-specific documentation using FAISS vector search</li>
+      <li>Shipped five end-to-end features — structured data conversion, multi-step generation, conflict validation, multi-source data fusion with confidence scoring, and a stateful CRUD system — using a rule-based-first design</li>
+      <li>Engineered fail-soft error handling and a prompt-injection mitigation layer across all LLM-facing endpoints, plus a safe, idempotent data-ingestion pipeline for growing the knowledge base without risk to existing data</li>
     </ul>
-    <div class="tags"><span class="tag">C</span><span class="tag">TCP Sockets</span><span class="tag">HTTP/1.1</span><span class="tag">Linux</span></div>
-  </div>
-
-  <div class="proj rv">
-    <div class="proj-head">
-      <span class="proj-name">Raspberry Pi Hardened Network Node</span>
-      <span class="proj-date">Aug 2025</span>
-    </div>
-    <ul>
-      <li>Deployed Linux + Tor + Mullvad VPN on a Raspberry Pi for zero-leak anonymous routing</li>
-      <li>Configured Matrix (Element) with E2EE and UFW firewall rules to block all leaks</li>
-      <li>Validated network isolation against identification and tracking vectors, confirming zero data leakage across all egress paths</li>
-    </ul>
-    <div class="tags"><span class="tag">Raspberry Pi</span><span class="tag">Tor</span><span class="tag">VPN</span><span class="tag">UFW</span><span class="tag">E2EE</span></div>
+    <div class="tags"><span class="tag">FAISS</span><span class="tag">RAG</span><span class="tag">Ollama</span><span class="tag">LangChain</span><span class="tag">Streamlit</span></div>
   </div>
 
   <div class="proj rv">
@@ -286,11 +272,11 @@
       <span class="proj-date">Apr 2026</span>
     </div>
     <ul>
-      <li>Analyzed satellite imagery via the ArcGIS API to identify 50,000+ large buildings (100k+ sq ft) for water reuse and operational resilience</li>
+      <li>Analyzed satellite imagery via the ArcGIS API to identify 50,000+ large buildings (100k+ sq ft) for water reuse and operational resilience through an interactive geospatial frontend (React, Mapbox GL)</li>
       <li>Integrated multi-source data (NOAA, EPA, incentives) to compute viability scores with 70%+ cost savings potential and mission-continuity ROI</li>
       <li>Developed a financial weighting algorithm (60% collection + 40% cost) achieving 85% accuracy in site prioritization for infrastructure hardening</li>
     </ul>
-    <div class="tags"><span class="tag">ArcGIS API</span><span class="tag">NOAA</span><span class="tag">Java</span><span class="tag">Mapbox GL</span></div>
+    <div class="tags"><span class="tag">ArcGIS API</span><span class="tag">React</span><span class="tag">Mapbox GL</span><span class="tag">NOAA</span></div>
   </div>
 </section>
 
@@ -299,11 +285,11 @@
   <div class="cmd rv"><span class="user">haneesh@portfolio</span>:<span class="path">~</span>$ <span class="exec">cat skills.yaml</span></div>
   <h2 class="st rv">Skills</h2>
   <div class="yaml rv">
-    <div class="yaml-row"><span class="k">programming:</span> <span class="v">Java, Python, C/C++, MySQL, TCP sockets, Bash, PowerShell, OOP</span></div>
+    <div class="yaml-row"><span class="k">programming:</span> <span class="v">Java, Python, C/C++, SQL/MySQL, TCP sockets, Bash, PowerShell, JavaScript/React, Django/Flask</span></div>
     <div class="yaml-row"><span class="k">cybersecurity:</span> <span class="v">OSI model, TCP/IP, AES/RSA crypto, Metasploit, firewalls, OSINT, NIST framework</span></div>
-    <div class="yaml-row"><span class="k">tools:</span> <span class="v">Wireshark, TryHackMe, command line (grep, awk), HTTP analysis</span></div>
-    <div class="yaml-row"><span class="k">ai_ml:</span> <span class="v">TensorFlow, PyTorch, scikit-learn, LLMs, LangChain, Hugging Face</span></div>
-    <div class="yaml-row"><span class="k">automation:</span> <span class="v">Power Automate, UiPath, Automation Anywhere, Blue Prism</span></div>
+    <div class="yaml-row"><span class="k">systems_infra:</span> <span class="v">Linux/Unix administration, nftables, AppArmor, VLAN isolation, Docker</span></div>
+    <div class="yaml-row"><span class="k">tools:</span> <span class="v">Wireshark, TryHackMe, command line (grep, awk), HTTP analysis, Git/GitHub, Gradle</span></div>
+    <div class="yaml-row"><span class="k">ai_ml:</span> <span class="v">TensorFlow, PyTorch, scikit-learn, LLMs, LangChain, Hugging Face, Ollama, FAISS, RAG, Streamlit</span></div>
   </div>
 </section>
 
@@ -314,7 +300,6 @@
   <div class="edu rv">
     <div class="edu-school">Southern Methodist University — Dallas, TX</div>
     <div class="edu-meta">Bobby B. Lyle School of Engineering · B.S. Computer Science · Expected May 2028</div>
-    <div class="edu-courses"><span class="k">relevant courses:</span> Linear Algebra, Computer Organization, Data Structures, Fundamentals of Algorithms, Calculus 1 &amp; 2</div>
   </div>
 </section>
 
